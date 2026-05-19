@@ -300,7 +300,7 @@
         <div class="crisp-card">
             <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-2 mb-4">
                 <h3 class="mb-0">Resume</h3>
-                <a href="McOwenSaurambaCV.pdf" class="btn btn-primary" role="button"><i class="fas fa-download me-1"></i> Download CV</a>
+                <a href="CV.pdf" class="btn btn-primary" role="button"><i class="fas fa-download me-1"></i> Download CV</a>
             </div>
 
             <div class="row g-4">
@@ -358,6 +358,9 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="htb-tab" data-bs-toggle="tab" data-bs-target="#htb" type="button" role="tab">HackTheBox</button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="vulnhub-tab" data-bs-toggle="tab" data-bs-target="#vulnhub" type="button" role="tab">VulnHub</button>
+                </li>
             </ul>
             <div class="tab-content" id="portfolioTabContent">
                 <!-- TryHackMe Tab -->
@@ -399,10 +402,32 @@
                 </div>
                 <!-- HackTheBox Tab (WIP) -->
                 <div id="htb" class="tab-pane fade" role="tabpanel">
+                    <div class="row g-4 justify-content-center">
+                        <!-- Project 1: Jerry -->
+                        <div class="col-sm-6 col-md-3 text-center">
+                            <div class="crisp-card p-3 h-100">
+                                <img src="Jerry.png" height="90" width="90" class="mb-3" alt="rootme" onerror="this.src='https://placehold.co/90x90'">
+                                <h5 class="fw-semibold">Jerry</h5>
+                                <div class="btn-group-sm-custom mt-2">
+                                    <a href="Jerry/Jerry.html" class="btn btn-primary btn-sm">View</a>
+                                    <a href="Jerry.pdf" class="btn btn-dark btn-sm">Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- extra placeholder for future project (optional) -->
+                        <div class="col-sm-6 col-md-3 text-center">
+                            <div class="crisp-card p-3 h-100 bg-light">
+                                <i class="fas fa-shield-alt fa-3x text-secondary mb-2"></i>
+                                <p class="text-muted small">More labs coming</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- VulnHub Tab (WIP) -->
+                <div id="vulnhub" class="tab-pane fade" role="tabpanel">
                     <div class="text-center py-5">
-                        <img src="wip.gif" class="mb-3" alt="Work in progress" style="max-width: 180px;" onerror="this.src='https://placehold.co/200x100?text=HTB+WIP'">
-                        <h5 class="text-secondary">HackTheBox walkthroughs coming soon</h5>
-                        <p>Active directory & CTF challenges in progress.</p>
+                        <img src="wip.gif" class="mb-3" alt="Work in progress" style="max-width: 180px;" onerror="this.src='https://placehold.co/200x100?text=VulnHub+WIP'">
+                        <h5 class="text-secondary">VulnHub walkthroughs coming soon</h5>
                     </div>
                 </div>
             </div>
